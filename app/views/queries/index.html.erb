@@ -1,0 +1,58 @@
+<div class="row">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col col-xs-6">
+								<h3 class="panel-title">Queries</h3>
+							</div>
+						</div>
+					</div>
+					<div class="panel-body">
+					</div>
+					<div class="panel-footer">
+						<div class="row scrl_table">	
+							<table class="table table-bordered table-striped" id="datatable">
+								<thead>
+									<tr class="text-center">
+										<th>Action</th><th>Query Name</th><th>Query Description</th><th>Owner</th>
+									</tr>
+								</thead>
+								<tbody>									
+									<% @queries.each do |query| %>
+										<tr class="text-center">		
+											<td><a href='#' data-toggle="modal" data-target="#modal_<%= query.id %>"><span class="btn btn-default">View Query</span></a></td>
+											<td><%= query.query_name %></td>
+											<td><%= query.query_description %></td>
+											<td><%= query.user.user_name %></td>
+										</tr>
+									<% end %>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<% @queries.each do |query| %>
+	<div id="modal_<%= query.id %>" class="modal fade" role="dialog">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        <h4 class="modal-title">Query SQL</h4>
+	      </div>
+	      <div class="modal-body">
+	        <p><%= query.saved_query %></p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+<% end %>
