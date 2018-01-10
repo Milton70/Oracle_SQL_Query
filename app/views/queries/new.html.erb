@@ -1,0 +1,56 @@
+<% if @query.errors.any? %>
+	<div id="error_explanation">
+		<h2><%= pluralize(@query.errors.count, "error") %> found with your input:</h2>
+		<ul>
+			<% @query.errors.full_messages.each do |msg| %>
+				<li><%= msg %></li>
+			<% end %>	
+		</ul>
+	</div>
+<% end %>
+<%= form_for(@query) do |f| %>
+	<div class="row">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<div class="row">
+								<div class="col col-xs-6">
+									<h3 class="panel-title">Add a new Query</h3>
+								</div>
+							</div>
+						</div>
+						<div class="panel-body">
+							<table class="table table-striped table-bordered table-list">
+				        <thead>
+				          <tr>
+				            <th>Query Name</th>
+				            <th>Query Description</th>
+				            <th>Query Text</th>
+				            <th>Owner</th>
+				          </tr>
+				        </thead>  
+		        		<tbody>
+		        			<tr class="form-group">
+		        				<td><%= f.text_field 	:query_name, class: "form-control", placeholder: "A name to help you identify the query." %></td>
+		        				<td><%= f.text_field 	:query_description, class: "form-control", placeholder: "A description of the query." %></td>
+		        				<td><%= f.text_area 	:saved_query, size: "20x20", class: "form-control", placeholder: "SELECT queries only, others will fail!" %></td>
+		        				<td><%= f.select 			:user_id, options_from_collection_for_select(User.order("user_name ASC").all, 'id', 'user_name'), {}, {class: 'form-control'} %></td>
+		        			</tr>
+		        		</tbody>        	
+		       		</table>
+						</div>
+						<div class="panel-footer">
+							<div class="row">
+		      			<div class="col-md-12" data-turbolinks="false">
+		      				<%= f.submit "Create", class: "btn btn-primary pull-right" %>
+		      			</div>
+		    			</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<% end %>

@@ -23,6 +23,9 @@ gem 'jbuilder', '~> 2.5'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
+# get ruby oracle drivers
+gem 'ruby-oci8', '~> 2.2', '>= 2.2.5.1'
+
 # Use bootstrap for styling
 gem 'twitter-bootstrap-rails'
 gem 'jquery-datatables-rails', '~> 3.4.0'

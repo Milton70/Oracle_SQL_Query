@@ -1,4 +1,4 @@
 Rails.application.routes.draw do
-  resources :queries
+  resources :queries, :users
   root 'queries#index'
 end

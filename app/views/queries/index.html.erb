@@ -5,32 +5,43 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<div class="row">
-							<div class="col col-xs-6">
-								<h3 class="panel-title">Queries</h3>
-							</div>
+							<h3 class="panel-title text-center">Queries</h3>
+							<div class="col col-xs-12 text-right" data-turbolinks="false">
+      					<%= link_to "Create New Query", new_query_path, class: "btn btn-sm btn-primary" %>
+      				</div>
 						</div>
 					</div>
 					<div class="panel-body">
 					</div>
 					<div class="panel-footer">
-						<div class="row scrl_table">	
-							<table class="table table-bordered table-striped" id="datatable">
-								<thead>
-									<tr class="text-center">
-										<th>Action</th><th>Query Name</th><th>Query Description</th><th>Owner</th>
-									</tr>
-								</thead>
-								<tbody>									
-									<% @queries.each do |query| %>
-										<tr class="text-center">		
-											<td><a href='#' data-toggle="modal" data-target="#modal_<%= query.id %>"><span class="btn btn-default">View Query</span></a></td>
-											<td><%= query.query_name %></td>
-											<td><%= query.query_description %></td>
-											<td><%= query.user.user_name %></td>
+						<div class="row">
+							<div class="col-md-12">	
+								<table class="table table-bordered table-striped" id="query_datatable">
+									<thead>
+										<tr class="text-center">
+											<th>Action</th><th>Query Name</th><th>Query Description</th><th>Owner</th>
 										</tr>
-									<% end %>
-								</tbody>
-							</table>
+									</thead>
+									<tbody>									
+										<% @queries.each do |query| %>
+											<tr class="text-center">		
+												<td>
+													<a href='#' data-toggle="modal" data-target="#modal_<%= query.id %>"><span class="btn btn-default"><i class="glyphicon glyphicon-eye-open"></i></span></a>
+													<%= link_to edit_query_path(query), title: 'Edit', class: "btn btn-warning" do %>
+		            						<i class="glyphicon glyphicon-pencil"></i>
+		            					<% end %>
+		            					<%= link_to query_path(query), method: :delete, data: {confirm: 'Are you sure?'}, title: 'Delete', class: "btn btn-danger" do %>
+		            						<i class="glyphicon glyphicon-trash"></i>
+		            					<% end %>
+												</td>
+												<td><%= query.query_name %></td>
+												<td><%= query.query_description %></td>
+												<td><%= query.user.user_name %></td>
+											</tr>
+										<% end %>
+									</tbody>
+								</table>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -44,10 +55,29 @@
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
-	        <h4 class="modal-title">Query SQL</h4>
+	        <h4 class="modal-title"><%= query.query_name %></h4>
 	      </div>
 	      <div class="modal-body">
-	        <p><%= query.saved_query %></p>
+	      	<div class="row">
+						<div class="col-md-12">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<div class="row">
+									</div>
+								</div>
+								<div class="panel-body">
+									<p><%= query.saved_query %></p>
+								</div>
+								<div class="panel-footer">
+									<div class="row">
+										<%= form_tag(query_path(query.id), method: "get") do %>
+											<%= submit_tag "Execute", class: "btn btn-primary pull-right" %>
+										<% end %>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
