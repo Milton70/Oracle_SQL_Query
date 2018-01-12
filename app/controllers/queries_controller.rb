@@ -52,4 +52,13 @@ byebug
 byebug
 	end
 
+	def quick_run
+	end
+
+	def execute_quick_run
+byebug		
+		@results = Query.execute_query(@query.saved_query)
+byebug	
+	end
+
 end
