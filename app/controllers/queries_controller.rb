@@ -51,15 +51,32 @@ class QueriesController < ApplicationController
 		else
 			query = Query.find(params[:id])
 			@result_header, @result_values, @query_sql, @env = Query.execute_query(params[:environment_name], query.saved_query)
+			if @result_header == nil
+				flash[:warning] = "Query [ #{@query_sql} ] could not connect to database, please check database user id and password."
+				redirect_to '/queries'
+			elsif @result_header == "Query Failed"
+				flash[:warning] = "Query [ #{@query_sql} ] failed with message - [ #{@result_values} ], please check and amend your query."
+				redirect_to '/queries'
+			end
 		end
 	end
 
 	def execute_quick_run		
 		@result_header, @result_values, @query_sql, @env = Query.execute_query(params[:environment_name], params[:saved_query])
-		render 'show'
+		if @result_header == nil
+			flash[:warning] = "Query [ #{@query_sql} ] could not connect to database, please check database user id and password."
+			redirect_to '/queries'
+		elsif @result_header == "Query Failed"
+			flash[:warning] = "Query [ #{@query_sql} ] failed with message - [ #{@result_values} ], please check and amend your query."
+			redirect_to '/queries'
+		else
+			render 'show'
+		end
 	end
 
 	def download
+
+		# Re-run the query so we can add it to the attachment
 		result_header, result_values, query_sql, env = Query.execute_query(params[:environment_name], params[:saved_query])
 
 		#Attachment name
@@ -67,7 +84,7 @@ class QueriesController < ApplicationController
 		temp_file = Rails.root.join('tmp', filename)
 
 		Axlsx::Package.new do |p|
-			p.workbook.add_worksheet(:name => "Query Output") do |sheet|
+			p.workbook.add_worksheet(:name => "Query Output") do |sheet|				
 				sheet.add_row result_header
 				result_values.each do |res|					
 					sheet.add_row res
