@@ -42,4 +42,48 @@ class UsersController < ApplicationController
 		redirect_to action: :index
 	end
 
+	def db_config
+		@envs = Environment.all		
+	end
+
+	def new_db
+		@env = Environment.new		
+	end
+
+	def create_db
+		@env = Environment.new	
+		@env.environment_name = params['environment']['environment_name']
+		@env.db_user_id 			= params['environment']['db_user_id']
+		@env.db_pwd 					= params['environment']['db_pwd']
+		if @env.save
+			flash[:success] = "Environment [ #{@env.environment_name} ] created."
+			redirect_to '/db_config'
+		else
+			render 'new_db'
+		end		
+	end
+
+	def edit_db
+		@env = Environment.find(params[:id])
+		@error_env = @env
+	end		
+
+	def update_db
+		@env = Environment.find(params[:id])
+		if @env.update environment_name: params['environment']['environment_name'], db_user_id: params['environment']['db_user_id'], db_pwd: params['environment']['db_pwd']
+			flash[:success] = "Environment [ #{@env.environment_name} ] updated."
+			redirect_to '/db_config'
+		else
+			@error_env = @env
+			@env = Environment.find(params[:id])
+			render 'edit_db'
+		end
+	end
+
+	def delete_db
+		@env = Environment.find(params[:id])
+		@env.destroy
+		redirect_to action: :db_config				
+	end
+
 end

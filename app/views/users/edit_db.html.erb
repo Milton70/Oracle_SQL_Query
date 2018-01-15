@@ -1,0 +1,48 @@
+<% if @error_env.errors.any? %>
+	<div id="error_explanation">
+		<h2><%= pluralize(@error_env.errors.count, "error") %> found with your input:</h2>
+		<ul>
+			<% @error_env.errors.full_messages.each do |msg| %>
+				<li><%= msg %></li>
+			<% end %>	
+		</ul>
+	</div>
+<% end %>
+<%= form_for(@env, url: update_db_path(@env), method: :post) do |f| %>
+	<div class="container">    
+		<div class="col-md-6 col-md-offset-3">
+		  <div class="panel panel-default">
+		    <div class="panel-heading">
+		      <div class="row">
+		       	<h3 class="panel-title">&nbsp;Edit Environment</h3>
+		      </div>
+		    </div>
+		    <div class="panel-body">
+		      <table class="table table-striped table-bordered table-list">
+		        <thead>
+		          <tr>
+		            <th>Environment Name</th>
+		          	<th>Database User Id</th>
+		          	<th>Database Password</th>
+		          </tr> 
+		        </thead>
+		        <tbody>
+		        	<tr class="form-group">
+		        		<td><%= f.text_field :environment_name, class: "form-control" %></td>
+		        		<td><%= f.text_field :db_user_id, class: "form-control" %></td>
+		        		<td><%= f.text_field :db_pwd, class: "form-control" %></td>
+		        	</tr>
+		        </tbody>
+		      </table>
+		    </div>
+		    <div class="panel-footer">
+		      <div class="row">
+		      	<div class="col-md-7" data-turbolinks="false">
+		      		<%= f.submit "Update", class: "btn btn-sm btn-primary pull-right" %>
+		      	</div>
+		    	</div>
+		  	</div>
+			</div>
+		</div>
+	</div>
+<% end %>

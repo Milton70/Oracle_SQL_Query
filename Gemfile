@@ -20,11 +20,15 @@ gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
 
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+# Use axlsx as spreadsheet
+gem 'axlsx_rails'
+gem 'zip-zip'
 
 # get ruby oracle drivers
-gem 'ruby-oci8', '~> 2.2', '>= 2.2.5.1'
+gem 'ruby-oci8', '~> 2.2'
+
+# User rufus for scheduling clean-up routines
+gem 'rufus-scheduler'
 
 # Use bootstrap for styling
 gem 'twitter-bootstrap-rails'

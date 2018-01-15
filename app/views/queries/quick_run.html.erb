@@ -1,0 +1,42 @@
+<%= form_tag(execute_quick_run_path) do %>
+	<div class="row">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<div class="row">
+								<h3 class="panel-title">Enter Your Query</h3>
+							</div>
+						</div>
+						<div class="panel-body">
+							<div class="col-md-12">
+								<table class="table table-striped table-bordered table-list">
+					        <thead>
+					          <tr>
+					            <th>Query Text</th>
+					            <th>Environment</th>
+					          </tr>
+					        </thead>  
+			        		<tbody>
+			        			<tr class="form-group">
+			        				<td><%= text_area_tag :saved_query, nil, size: "20x20", class: "form-control", placeholder: "SELECT queries only, others will fail!" %></td>
+			        				<td><%= select_tag 		:environment_name, options_from_collection_for_select(Environment.all, 'id', 'environment_name'), class: 'form-control' %></td>
+			        			</tr>
+			        		</tbody>        	
+			       		</table>
+			       	</div>
+						</div>
+						<div class="panel-footer">
+							<div class="row">
+		      			<div class="col-md-12" data-turbolinks="false">
+		      				<%= submit_tag "Execute", class: "btn btn-primary pull-right" %>
+		      			</div>
+		    			</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<% end %>

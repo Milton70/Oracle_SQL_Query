@@ -71,7 +71,14 @@
 								<div class="panel-footer">
 									<div class="row">
 										<%= form_tag(query_path(query.id), method: "get") do %>
-											<%= submit_tag "Execute", class: "btn btn-primary pull-right" %>
+											<div class="row">
+												<div class="col-md-4 col-md-offset-3">
+													<%= select_tag :environment_name, options_from_collection_for_select(Environment.all, 'id', 'environment_name'), class: 'form-control pull-right' %>
+												</div>
+												<div class="col-md-5">
+													<%= submit_tag "Execute", class: "btn btn-primary" %>
+												</div>
+											</div>
 										<% end %>
 									</div>
 								</div>

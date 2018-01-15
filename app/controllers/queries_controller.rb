@@ -45,20 +45,39 @@ class QueriesController < ApplicationController
 		redirect_to action: :index
 	end
 
-	def show
-byebug		
-		@query = Query.find(params[:id])
-		@results = Query.execute_query(@query.saved_query)
-byebug
+	def show			
+		if params[:id] == 'run_quick_query' || params[:id] == 'execute_quick_run'
+			render 'quick_run'
+		else
+			query = Query.find(params[:id])
+			@result_header, @result_values, @query_sql, @env = Query.execute_query(params[:environment_name], query.saved_query)
+		end
 	end
 
-	def quick_run
+	def execute_quick_run		
+		@result_header, @result_values, @query_sql, @env = Query.execute_query(params[:environment_name], params[:saved_query])
+		render 'show'
 	end
 
-	def execute_quick_run
-byebug		
-		@results = Query.execute_query(@query.saved_query)
-byebug	
+	def download
+		result_header, result_values, query_sql, env = Query.execute_query(params[:environment_name], params[:saved_query])
+
+		#Attachment name
+		filename = "#{Time.now.strftime('%Y%m%d%H%M%S')}.xlsx"
+		temp_file = Rails.root.join('tmp', filename)
+
+		Axlsx::Package.new do |p|
+			p.workbook.add_worksheet(:name => "Query Output") do |sheet|
+				sheet.add_row result_header
+				result_values.each do |res|					
+					sheet.add_row res
+				end
+			end
+			p.serialize(temp_file)
+		end	
+
+		send_file temp_file, :type => 'application/application/vnd.openxmlformats-officedocument.spreadsheetml.template', disposition: 'attachment', :filename => filename
+
 	end
 
 end

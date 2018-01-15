@@ -13,4 +13,9 @@ document.addEventListener("turbolinks:load", function() {
     ]
 	});
 	
+	$('#scroll_datatable').DataTable({
+		"scrollX": 		true,
+		"scrollY": 		true
+	});
+
 });
